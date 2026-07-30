@@ -1,0 +1,11 @@
+{
+  "name": "ruleta-multijugador",
+  "version": "1.0.0",
+  "description": "App de ruleta multijugador lista para Render",
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "npm --prefix frontend install && npm --prefix frontend run build && npm --prefix backend install",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev"
+  }
+}
