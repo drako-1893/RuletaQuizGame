@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || ''; // Vacío significa mismo host (ideal para Render)
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
 
 export function useSocket(roomId, playerName) {
   const [roomData, setRoomData] = useState(null);

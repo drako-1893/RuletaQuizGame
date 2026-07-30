@@ -147,23 +147,32 @@ h1, h2, h3 {
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
+    height: 100vh; /* Forzar el tamaño a la pantalla para que el scroll interno funcione */
+    overflow: hidden;
   }
   
   .room-layout {
     flex-direction: row;
     gap: 2rem;
+    height: 100%;
+    min-height: 0; /* Clave para que los flex-children hagan scroll */
   }
   
   .room-sidebar {
     width: 250px;
+    height: 100%;
+    overflow-y: auto;
   }
   
   .room-chat {
     width: 300px;
-    height: auto;
+    height: 100%;
+    min-height: 0;
   }
   
   .room-main {
     padding: 2rem;
+    height: 100%;
+    overflow-y: auto;
   }
 }
