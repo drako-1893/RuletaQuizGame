@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-      <div className="glass-panel" style={{ padding: '3rem', width: '100%', maxWidth: '400px', textAlign: 'center' }}>
+      <div className="glass-panel" style={{ padding: '2rem', width: '100%', maxWidth: '400px', textAlign: 'center' }}>
         <h1 style={{ marginBottom: '2rem', fontSize: '2.5rem', background: 'linear-gradient(to right, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           GiraGira
         </h1>
@@ -54,6 +54,7 @@ export default function Home() {
               placeholder="Código de sala..."
               value={roomId}
               onChange={(e) => setRoomId(e.target.value)}
+              style={{ minWidth: 0 }}
             />
             <button 
               className="btn btn-primary" 

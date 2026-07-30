@@ -28,35 +28,22 @@ export default function Roulette({ questions, spinEvent, onSpinEnd }) {
 
   useEffect(() => {
     if (spinEvent && spinEvent.targetRotation !== undefined) {
-      // Evitar doble giro
       if (isSpinning) return;
       
       setIsSpinning(true);
       setSelectedQuestion(null);
       
-      // Aplicar el nuevo ángulo (sumando el actual para mantener la rotación continua)
-      // spinEvent.targetRotation trae el ángulo final incluyendo las vueltas
-      // Pero para que gire desde donde está, simplemente podemos sumarlo.
-      // O, como el servidor manda 'targetRotation' (vueltas + offset),
-      // Nos aseguramos de sumar eso a la rotación base.
-      
       const newRotation = rotation + spinEvent.targetRotation;
       setRotation(newRotation);
       
-      // Calcular cuál es el ganador
-      // La ruleta gira 'newRotation' grados en sentido horario.
-      // El puntero está en la posición 0 grados (arriba).
-      // Después de girar, el ángulo del componente bajo el puntero es:
-      // (360 - (newRotation % 360)) % 360
       const normalizedRotation = (360 - (newRotation % 360)) % 360;
       const winningIndex = Math.floor(normalizedRotation / segmentAngle);
       
-      // Esperar a que termine la animación (5 segundos)
       setTimeout(() => {
         setIsSpinning(false);
         setSelectedQuestion(questions[winningIndex]);
-        if (onSpinEnd) onSpinEnd(); // Cambiar turno
-      }, 5500); // 5.5s para asegurar que terminó (transición es 5s)
+        if (onSpinEnd) onSpinEnd();
+      }, 5500); 
     }
   }, [spinEvent]);
 
@@ -67,8 +54,14 @@ export default function Roulette({ questions, spinEvent, onSpinEnd }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       
-      {/* Contenedor de la Ruleta */}
-      <div style={{ position: 'relative', width: '300px', height: '300px', margin: '2rem 0' }}>
+      {/* Contenedor de la Ruleta adaptado a mobile */}
+      <div style={{ 
+        position: 'relative', 
+        width: '100%', 
+        maxWidth: '350px', 
+        aspectRatio: '1/1',
+        margin: '1.5rem 0' 
+      }}>
         
         {/* Puntero */}
         <div style={{
@@ -100,7 +93,6 @@ export default function Roulette({ questions, spinEvent, onSpinEnd }) {
             overflow: 'hidden'
           }}
         >
-          {/* Textos (Opcional: Si son muchos no caben, pero intentaremos poner números o íconos) */}
           {questions.map((q, i) => {
             const angle = (i * segmentAngle) + (segmentAngle / 2);
             return (
@@ -134,8 +126,8 @@ export default function Roulette({ questions, spinEvent, onSpinEnd }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '40px',
-          height: '40px',
+          width: '12%',
+          aspectRatio: '1/1',
           background: 'var(--bg-dark)',
           borderRadius: '50%',
           border: '4px solid var(--text-main)',
@@ -144,10 +136,10 @@ export default function Roulette({ questions, spinEvent, onSpinEnd }) {
       </div>
 
       {/* Mostrar la pregunta seleccionada */}
-      <div style={{ height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
         {selectedQuestion && !isSpinning && (
-          <div className="glass-panel" style={{ padding: '1rem 2rem', background: 'rgba(139, 92, 246, 0.2)', border: '1px solid var(--primary)', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
-            <h3 style={{ margin: 0, textAlign: 'center', fontSize: '1.2rem', color: 'var(--text-main)' }}>
+          <div className="glass-panel" style={{ padding: '1rem', background: 'rgba(139, 92, 246, 0.2)', border: '1px solid var(--primary)', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)', width: '100%', textAlign: 'center' }}>
+            <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-main)', wordBreak: 'break-word' }}>
               {selectedQuestion}
             </h3>
           </div>
