@@ -35,7 +35,7 @@ export default function PlayerList({ players, turnIndex, socketId }) {
             </div>
             <div style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               <span style={{ fontWeight: isTurn ? '600' : '400', color: isTurn ? 'white' : 'var(--text-muted)' }}>
-                {player.name} {isMe && '(Tú)'}
+                {index + 1}. {player.name} {isMe && '(Tú)'}
               </span>
             </div>
           </div>

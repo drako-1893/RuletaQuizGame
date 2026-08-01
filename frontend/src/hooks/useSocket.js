@@ -60,6 +60,12 @@ export function useSocket(roomId, playerName) {
     }
   };
 
+  const deleteQuestion = (question) => {
+    if (socketRef.current && roomId) {
+      socketRef.current.emit('delete_question', { roomId, question });
+    }
+  };
+
   return {
     socketId: socketRef.current?.id,
     isConnected,
@@ -68,6 +74,7 @@ export function useSocket(roomId, playerName) {
     spinRoulette,
     nextTurn,
     updateQuestions,
+    deleteQuestion,
     sendMessage
   };
 }

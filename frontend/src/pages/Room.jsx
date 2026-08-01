@@ -24,6 +24,7 @@ export default function Room() {
     spinRoulette,
     nextTurn,
     updateQuestions,
+    deleteQuestion,
     sendMessage
   } = useSocket(roomId, playerName);
 
@@ -114,18 +115,37 @@ export default function Room() {
         <Roulette 
           questions={roomData.questions} 
           spinEvent={spinEvent} 
-          onSpinEnd={nextTurn}
+          isMyTurn={isMyTurn}
+          onDeleteQuestion={deleteQuestion}
         />
         
-        <div style={{ marginTop: '2rem' }}>
-          <button 
-            className="btn btn-primary" 
-            style={{ fontSize: '1.2rem', padding: '1rem 2rem', borderRadius: '50px' }}
-            onClick={spinRoulette}
-            disabled={!isMyTurn}
-          >
-            {isMyTurn ? 'GIRAR RULETA' : 'ESPERA TU TURNO'}
-          </button>
+        <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {isMyTurn ? (
+            <>
+              <button 
+                className="btn btn-primary" 
+                style={{ fontSize: '1.2rem', padding: '1rem 2rem', borderRadius: '50px' }}
+                onClick={spinRoulette}
+              >
+                {spinEvent ? 'VOLVER A TIRAR' : 'GIRAR RULETA'}
+              </button>
+              <button 
+                className="btn" 
+                style={{ fontSize: '1.2rem', padding: '1rem 2rem', borderRadius: '50px', background: 'var(--glass-bg)', color: 'white', border: '1px solid var(--glass-border)' }}
+                onClick={nextTurn}
+              >
+                PASAR TURNO
+              </button>
+            </>
+          ) : (
+            <button 
+              className="btn" 
+              style={{ fontSize: '1.2rem', padding: '1rem 2rem', borderRadius: '50px', background: 'var(--glass-bg)', color: 'var(--text-muted)' }}
+              disabled
+            >
+              ESPERA TU TURNO
+            </button>
+          )}
         </div>
       </div>
 

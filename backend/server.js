@@ -79,6 +79,13 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('delete_question', ({ roomId, question }) => {
+    if (rooms[roomId]) {
+      rooms[roomId].questions = rooms[roomId].questions.filter(q => q !== question);
+      io.to(roomId).emit('room_updated', rooms[roomId]);
+    }
+  });
+
   socket.on('send_message', ({ roomId, message, playerName }) => {
     if (rooms[roomId]) {
       const chatMsg = { id: Date.now(), playerName, message };

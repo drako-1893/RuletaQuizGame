@@ -6,7 +6,7 @@ const COLORS = [
   '#10b981', '#06b6d4', '#3b82f6', '#8b5cf6', '#d946ef', '#f43f5e'
 ];
 
-export default function Roulette({ questions, spinEvent, onSpinEnd }) {
+export default function Roulette({ questions, spinEvent, isMyTurn, onDeleteQuestion }) {
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -42,7 +42,7 @@ export default function Roulette({ questions, spinEvent, onSpinEnd }) {
       setTimeout(() => {
         setIsSpinning(false);
         setSelectedQuestion(questions[winningIndex]);
-        if (onSpinEnd) onSpinEnd();
+        // No auto-advance, we use the Pasar Turno button now
       }, 5500); 
     }
   }, [spinEvent]);
@@ -135,14 +135,27 @@ export default function Roulette({ questions, spinEvent, onSpinEnd }) {
         }}></div>
       </div>
 
-      {/* Mostrar la pregunta seleccionada */}
-      <div style={{ minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+      <div style={{ minHeight: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', flexDirection: 'column', gap: '1rem' }}>
         {selectedQuestion && !isSpinning && (
-          <div className="glass-panel" style={{ padding: '1rem', background: 'rgba(139, 92, 246, 0.2)', border: '1px solid var(--primary)', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)', width: '100%', textAlign: 'center' }}>
-            <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-main)', wordBreak: 'break-word' }}>
-              {selectedQuestion}
-            </h3>
-          </div>
+          <>
+            <div className="glass-panel" style={{ padding: '1rem', background: 'rgba(139, 92, 246, 0.2)', border: '1px solid var(--primary)', animation: 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)', width: '100%', textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-main)', wordBreak: 'break-word' }}>
+                {selectedQuestion}
+              </h3>
+            </div>
+            {isMyTurn && onDeleteQuestion && (
+              <button 
+                className="btn" 
+                style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', border: '1px solid #ef4444', fontSize: '0.9rem', padding: '0.5rem 1rem' }}
+                onClick={() => {
+                  onDeleteQuestion(selectedQuestion);
+                  setSelectedQuestion(null);
+                }}
+              >
+                Borrar Pregunta
+              </button>
+            )}
+          </>
         )}
         
         <style>{`
